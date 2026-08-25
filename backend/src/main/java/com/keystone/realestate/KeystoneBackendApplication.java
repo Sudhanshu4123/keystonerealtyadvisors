@@ -1,0 +1,11 @@
+package com.keystone.realestate;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class KeystoneBackendApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(KeystoneBackendApplication.class, args);
+    }
+}
