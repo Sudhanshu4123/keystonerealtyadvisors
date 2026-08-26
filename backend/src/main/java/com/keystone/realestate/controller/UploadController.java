@@ -21,6 +21,8 @@ public class UploadController {
     @Value("${app.upload-dir:public/uploads}")
     private String uploadDirStr;
 
+    private static final Set<String> ALLOWED_EXTENSIONS = Set.of(".jpg", ".jpeg", ".png", ".webp", ".gif", ".pdf");
+
     @PostMapping
     public ResponseEntity<?> uploadFiles(@RequestParam("files") MultipartFile[] files) {
         if (files == null || files.length == 0) {
@@ -41,7 +43,11 @@ public class UploadController {
                 String originalName = file.getOriginalFilename();
                 String ext = "";
                 if (originalName != null && originalName.contains(".")) {
-                    ext = originalName.substring(originalName.lastIndexOf("."));
+                    ext = originalName.substring(originalName.lastIndexOf(".")).toLowerCase();
+                }
+
+                if (!ALLOWED_EXTENSIONS.contains(ext)) {
+                    return ResponseEntity.badRequest().body(Map.of("error", "Invalid file extension. Allowed formats: JPG, PNG, WEBP, GIF, PDF"));
                 }
 
                 String uniqueName = UUID.randomUUID().toString() + ext;

@@ -38,10 +38,11 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/health", "/h2-console/**", "/uploads/**").permitAll()
-                .requestMatchers("/api/auth/login", "/api/auth/logout", "/api/seed").permitAll()
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/api/auth/login", "/api/auth/logout").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/projects/**", "/api/settings", "/api/testimonials").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/inquiries", "/api/messages").permitAll()
-                .anyRequest().permitAll() // Allow dev endpoints, auth handled inside controllers or headers
+                .requestMatchers(HttpMethod.POST, "/api/inquiries", "/api/messages", "/api/testimonials").permitAll()
+                .anyRequest().authenticated()
             )
             .headers(headers -> headers.frameOptions(frame -> frame.disable()));
 

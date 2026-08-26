@@ -95,12 +95,17 @@ export async function submitInquiry(data: {
   preferredContact?: string;
   visitDate?: string;
 }) {
-  const res = await fetch(`${API_BASE_URL}/inquiries`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE_URL}/inquiries`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    return await res.json();
+  } catch (err: any) {
+    console.error('Submit inquiry network error:', err);
+    return { success: false, error: 'Backend server is offline or unreachable. Please try again later.' };
+  }
 }
 
 export async function submitContactMessage(data: {
@@ -109,12 +114,17 @@ export async function submitContactMessage(data: {
   email?: string;
   message: string;
 }) {
-  const res = await fetch(`${API_BASE_URL}/messages`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE_URL}/messages`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    return await res.json();
+  } catch (err: any) {
+    console.error('Submit message network error:', err);
+    return { success: false, error: 'Backend server is offline or unreachable. Please try again later.' };
+  }
 }
 
 export async function submitReview(data: {
@@ -123,10 +133,15 @@ export async function submitReview(data: {
   review: string;
   image?: string;
 }) {
-  const res = await fetch(`${API_BASE_URL}/testimonials`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE_URL}/testimonials`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    return await res.json();
+  } catch (err: any) {
+    console.error('Submit review network error:', err);
+    return { success: false, error: 'Backend server is offline or unreachable. Please try again later.' };
+  }
 }

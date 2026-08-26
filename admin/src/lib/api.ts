@@ -33,29 +33,50 @@ export async function adminFetch(endpoint: string, options: RequestInit = {}) {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const res = await fetch(`${API_BASE_URL}${endpoint}`, {
-    ...options,
-    headers,
-  });
+  try {
+    const res = await fetch(`${API_BASE_URL}${endpoint}`, {
+      ...options,
+      headers,
+    });
 
-  if (res.status === 401 && typeof window !== 'undefined') {
-    removeAdminToken();
+    if (res.status === 401 && typeof window !== 'undefined') {
+      removeAdminToken();
+    }
+
+    return res;
+  } catch (error: any) {
+    console.error(`adminFetch error on ${endpoint}:`, error);
+    return new Response(
+      JSON.stringify({ error: 'Backend server is unreachable. Please ensure the backend is running.' }),
+      {
+        status: 503,
+        statusText: 'Service Unavailable',
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   }
-
-  return res;
 }
 
 export async function adminLogin(email: string, password: string) {
-  const res = await fetch(`${API_BASE_URL}/auth/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
-  const data = await res.json();
-  if (res.ok && data.token) {
-    setAdminToken(data.token);
+  try {
+    const res = await fetch(`${API_BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+    if (res.ok && data.token) {
+      setAdminToken(data.token);
+    }
+    return { ok: res.ok, status: res.status, data };
+  } catch (error: any) {
+    console.error('adminLogin error:', error);
+    return {
+      ok: false,
+      status: 503,
+      data: { error: 'Backend server is offline or unreachable. Please start the backend server.' },
+    };
   }
-  return { ok: res.ok, status: res.status, data };
 }
 
 export async function adminLogout() {
@@ -63,28 +84,45 @@ export async function adminLogout() {
 }
 
 export async function getAdminMetrics() {
-  const res = await adminFetch('/projects');
-  const projects = res.ok ? await res.json() : [];
+  try {
+    const res = await adminFetch('/projects');
+    const projectsRaw = res.ok ? await res.json() : [];
+    const projects = Array.isArray(projectsRaw) ? projectsRaw : (projectsRaw?.projects || []);
 
-  const inqRes = await adminFetch('/inquiries');
-  const inquiries = inqRes.ok ? await inqRes.json() : [];
+    const inqRes = await adminFetch('/inquiries');
+    const inquiriesRaw = inqRes.ok ? await inqRes.json() : [];
+    const inquiries = Array.isArray(inquiriesRaw) ? inquiriesRaw : (inquiriesRaw?.inquiries || []);
 
-  const msgRes = await adminFetch('/messages');
-  const messages = msgRes.ok ? await msgRes.json() : [];
+    const msgRes = await adminFetch('/messages');
+    const messagesRaw = msgRes.ok ? await msgRes.json() : [];
+    const messages = Array.isArray(messagesRaw) ? messagesRaw : (messagesRaw?.messages || []);
 
-  const upcomingProjects = projects.filter((p: any) => p.status === 'Upcoming').length;
-  const ongoingProjects = projects.filter((p: any) => p.status === 'Ongoing').length;
-  const completedProjects = projects.filter((p: any) => p.status === 'Completed').length;
-  const newInquiries = inquiries.filter((i: any) => i.status === 'NEW').length;
+    const upcomingProjects = projects.filter((p: any) => p.status === 'Upcoming').length;
+    const ongoingProjects = projects.filter((p: any) => p.status === 'Ongoing').length;
+    const completedProjects = projects.filter((p: any) => p.status === 'Completed').length;
+    const newInquiries = inquiries.filter((i: any) => i.status === 'NEW').length;
 
-  return {
-    totalProjects: projects.length,
-    upcomingProjects,
-    ongoingProjects,
-    completedProjects,
-    totalInquiries: inquiries.length,
-    newInquiries,
-    totalMessages: messages.length,
-    recentInquiries: inquiries.slice(0, 5),
-  };
+    return {
+      totalProjects: projects.length,
+      upcomingProjects,
+      ongoingProjects,
+      completedProjects,
+      totalInquiries: inquiries.length,
+      newInquiries,
+      totalMessages: messages.length,
+      recentInquiries: inquiries.slice(0, 5),
+    };
+  } catch (err) {
+    console.error('getAdminMetrics error:', err);
+    return {
+      totalProjects: 0,
+      upcomingProjects: 0,
+      ongoingProjects: 0,
+      completedProjects: 0,
+      totalInquiries: 0,
+      newInquiries: 0,
+      totalMessages: 0,
+      recentInquiries: [],
+    };
+  }
 }

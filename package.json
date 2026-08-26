@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev:backend": "cd backend && mvnw.cmd spring-boot:run",
+    "dev:backend": "cd backend && .\\mvnw.cmd spring-boot:run",
     "dev:frontend": "npm --prefix frontend run dev",
     "dev:admin": "npm --prefix admin run dev",
-    "build:backend": "cd backend && mvnw.cmd clean package -DskipTests",
+    "build:backend": "cd backend && .\\mvnw.cmd clean package -DskipTests",
     "build:frontend": "npm --prefix frontend run build",
     "build:admin": "npm --prefix admin run build"
   }

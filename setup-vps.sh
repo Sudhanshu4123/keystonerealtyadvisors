@@ -1,7 +1,7 @@
 #!/bin/bash
 # ============================================================
-# Keystone Realty Advisors — Hostinger VPS Setup Script
-# Run this ONCE on your fresh VPS to prepare the server
+# Keystone Monorepo — Hostinger VPS Server Setup Script
+# Installs Java 17, Node.js 20, Maven, Nginx, PM2
 # Usage: bash setup-vps.sh
 # ============================================================
 
@@ -13,68 +13,60 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 echo -e "${GREEN}========================================${NC}"
-echo -e "${GREEN}  Keystone Realty — VPS Server Setup   ${NC}"
+echo -e "${GREEN}  Keystone Monorepo — VPS Server Setup  ${NC}"
 echo -e "${GREEN}========================================${NC}"
 
 # 1. Update system packages
-echo -e "\n${YELLOW}[1/8] Updating system packages...${NC}"
+echo -e "\n${YELLOW}[1/6] Updating system packages...${NC}"
 apt-get update -y && apt-get upgrade -y
+apt-get install -y curl git wget build-essential openjdk-17-jdk maven
 
-# 2. Install Node.js 20 via NodeSource
-echo -e "\n${YELLOW}[2/8] Installing Node.js 20...${NC}"
+# 2. Install Node.js 20 & PM2
+echo -e "\n${YELLOW}[2/6] Installing Node.js 20 & PM2...${NC}"
 curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 apt-get install -y nodejs
-
-echo "Node version: $(node -v)"
-echo "NPM version: $(npm -v)"
-
-# 3. Install PM2 globally
-echo -e "\n${YELLOW}[3/8] Installing PM2 process manager...${NC}"
 npm install -g pm2
 
-# 4. Install Git
-echo -e "\n${YELLOW}[4/8] Installing Git...${NC}"
-apt-get install -y git
-
-# 5. Install Nginx
-echo -e "\n${YELLOW}[5/8] Installing Nginx reverse proxy...${NC}"
+# 3. Install Nginx
+echo -e "\n${YELLOW}[3/6] Installing Nginx...${NC}"
 apt-get install -y nginx
 
-# 6. Clone the project
-echo -e "\n${YELLOW}[6/8] Cloning Keystone project from GitHub...${NC}"
+# 4. Clone project
+echo -e "\n${YELLOW}[4/6] Setting up project directory...${NC}"
 mkdir -p /var/www
 cd /var/www
-git clone https://github.com/Sudhanshu4123/keystonerealtyadvisors.git keystone
-cd keystone
+if [ ! -d "/var/www/keystone" ]; then
+  git clone https://github.com/Sudhanshu4123/keystonerealtyadvisors.git keystone
+fi
+cd /var/www/keystone
 
-# 7. Setup environment variables
-echo -e "\n${YELLOW}[7/8] Setting up .env file...${NC}"
-cat > .env << 'EOF'
-DATABASE_URL="file:./prisma/dev.db"
-JWT_SECRET="CHANGE_THIS_TO_A_STRONG_RANDOM_SECRET_KEY"
-EOF
+# 5. Build applications
+echo -e "\n${YELLOW}[5/6] Building Backend (Java Spring Boot)...${NC}"
+cd /var/www/keystone/backend
+chmod +x mvnw
+./mvnw clean package -DskipTests
 
-echo -e "${RED}⚠️  IMPORTANT: Edit /var/www/keystone/.env and update JWT_SECRET!${NC}"
+echo -e "\n${YELLOW}[5/6] Building Frontend (Next.js)...${NC}"
+cd /var/www/keystone
+npm --prefix frontend ci
+npm --prefix frontend run build
 
-# 8. Install dependencies and build
-echo -e "\n${YELLOW}[8/8] Installing dependencies and building app...${NC}"
-npm ci
-npx prisma generate
-npx prisma db push
-npm run build
+echo -e "\n${YELLOW}[5/6] Building Admin Panel (Next.js)...${NC}"
+npm --prefix admin ci
+npm --prefix admin run build
 
-# Start with PM2
-pm2 start npm --name "keystone" -- start
+# 6. Start PM2 Processes
+echo -e "\n${YELLOW}[6/6] Launching PM2 process manager...${NC}"
+pm2 start "java -jar backend/target/keystone-backend-1.0.0.jar" --name "keystone-backend" || pm2 restart keystone-backend
+pm2 start npm --name "keystone-frontend" --prefix frontend -- start -- -p 3000 || pm2 restart keystone-frontend
+pm2 start npm --name "keystone-admin" --prefix admin -- start -- -p 3001 || pm2 restart keystone-admin
+
 pm2 save
-pm2 startup
+pm2 startup || true
 
 echo -e "\n${GREEN}========================================${NC}"
-echo -e "${GREEN}  Server Setup Complete!                ${NC}"
-echo -e "${GREEN}  App running on port 3000              ${NC}"
+echo -e "${GREEN}  Keystone Monorepo Setup Complete!    ${NC}"
+echo -e "${GREEN}  Backend API: http://localhost:5000     ${NC}"
+echo -e "${GREEN}  Frontend:    http://localhost:3000     ${NC}"
+echo -e "${GREEN}  Admin Panel: http://localhost:3001     ${NC}"
 echo -e "${GREEN}========================================${NC}"
-echo ""
-echo "Next steps:"
-echo "  1. Update /var/www/keystone/.env with your JWT_SECRET"
-echo "  2. Configure Nginx (run: bash setup-nginx.sh yourdomain.com)"
-echo "  3. Add GitHub Secrets (see DEPLOYMENT.md)"
-echo ""

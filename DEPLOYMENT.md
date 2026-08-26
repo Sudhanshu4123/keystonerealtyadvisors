@@ -1,126 +1,71 @@
-# 🚀 Keystone Realty Advisors — Deployment Guide
+# 🚀 Keystone Monorepo — VPS Deployment Guide
 
-## CI/CD Pipeline Overview
+## GitHub Actions Automated CI/CD Pipeline
 
 ```
-GitHub Push → CI (Build Check) → CD (Deploy to Hostinger VPS)
+GitHub Push (main branch) → CI Check → SSH into VPS → Build & Restart PM2
 ```
-
-- **CI Workflow** — Runs on every push/PR: installs deps, generates Prisma, builds Next.js
-- **CD Workflow** — Runs only on `main` branch push: SSHs into VPS, pulls code, rebuilds, restarts PM2
 
 ---
 
-## Step 1: First-Time VPS Server Setup
+## 🛠️ Step 1: Add GitHub Secrets
 
-SSH into your Hostinger VPS and run:
+Aap apne GitHub Repository me **Settings** → **Secrets and variables** → **Actions** → **New repository secret** me ye 4 secrets add karein:
+
+| Secret Name | Explanation | Example Value |
+| :--- | :--- | :--- |
+| `VPS_HOST` | Aapke VPS Server ka IP Address | `194.163.xxx.xxx` |
+| `VPS_USER` | SSH Username (usually root) | `root` |
+| `VPS_SSH_KEY` | Private SSH Key content | *(Private SSH Key text)* |
+| `VPS_PROJECT_PATH` | Server par project ka path | `/var/www/keystone` |
+
+---
+
+## 🔑 How to Generate & Setup SSH Key (One-time)
+
+Aap apne PC par Terminal / PowerShell me run karein:
 
 ```bash
-ssh root@YOUR_VPS_IP
-bash <(curl -s https://raw.githubusercontent.com/Sudhanshu4123/keystonerealtyadvisors/main/setup-vps.sh)
+# 1. SSH Key generate karein:
+ssh-keygen -t ed25519 -C "github-actions-keystone" -f keystone_key
+
+# 2. Public key content VPS me copy karein:
+# File 'keystone_key.pub' ka content VPS me /root/.ssh/authorized_keys me add karein
+
+# 3. Private key content GitHub Secrets me paste karein:
+# File 'keystone_key' ka content GitHub Secret `VPS_SSH_KEY` me paste karein
 ```
 
-Or manually:
+---
+
+## 🌐 Step 2: VPS First-Time One-Click Setup
+
+VPS me Terminal (SSH) open karke run karein:
 
 ```bash
 ssh root@YOUR_VPS_IP
-cd /var/www/keystone
+
+# Setup server tools (Java 17, Node 20, PM2, Nginx)
+mkdir -p /var/www && cd /var/www
 git clone https://github.com/Sudhanshu4123/keystonerealtyadvisors.git keystone
 cd keystone
 bash setup-vps.sh
-```
 
----
-
-## Step 2: Configure GitHub Secrets
-
-Go to your GitHub repository → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
-
-Add these 5 secrets:
-
-| Secret Name | Value | Example |
-|------------|-------|---------|
-| `VPS_HOST` | Your VPS IP address | `123.45.67.89` |
-| `VPS_USER` | SSH username | `root` |
-| `VPS_SSH_KEY` | Private SSH key content | *(see below)* |
-| `DATABASE_URL` | SQLite path | `file:./prisma/dev.db` |
-| `JWT_SECRET` | Random secret key | `your-super-secret-key-here` |
-| `VPS_PROJECT_PATH` | Project folder on server | `/var/www/keystone` |
-
-### How to get your SSH Private Key:
-
-```bash
-# On your LOCAL machine (Windows PowerShell or Git Bash):
-ssh-keygen -t ed25519 -C "github-actions-keystone" -f keystone_deploy_key
-
-# Copy the PUBLIC key to your VPS:
-cat keystone_deploy_key.pub
-# Paste this into your VPS: /root/.ssh/authorized_keys
-
-# Copy the PRIVATE key content:
-cat keystone_deploy_key
-# Paste this as VPS_SSH_KEY secret in GitHub
-```
-
----
-
-## Step 3: Setup Nginx (Reverse Proxy)
-
-On your VPS, run:
-
-```bash
-cd /var/www/keystone
+# Nginx Connect Karein:
 bash setup-nginx.sh yourdomain.com
-```
 
----
-
-## Step 4: Setup SSL (HTTPS)
-
-```bash
+# Free SSL (HTTPS) Enable Karein:
 apt install -y certbot python3-certbot-nginx
 certbot --nginx -d yourdomain.com -d www.yourdomain.com
 ```
 
 ---
 
-## Step 5: Deploy!
+## ⚡ Step 3: Automatic Deploy
 
-Just push to `main` branch — GitHub Actions will automatically:
-
-1. ✅ Run build check (CI)
-2. 🚀 SSH into your VPS
-3. 📥 Pull latest code
-4. 📦 Install dependencies
-5. 🔧 Run Prisma migrations
-6. 🏗️ Build production app
-7. ♻️ Restart PM2 (zero downtime)
-
-```bash
-git add .
-git commit -m "feat: your changes"
-git push origin main
-# That's it! GitHub Actions deploys automatically 🎉
-```
-
----
-
-## PM2 Useful Commands (on VPS)
-
-```bash
-pm2 list              # See running apps
-pm2 logs keystone     # View app logs
-pm2 restart keystone  # Restart app
-pm2 stop keystone     # Stop app
-pm2 monit             # Real-time monitoring
-```
-
----
-
-## Admin Panel
-
-- **URL**: `https://yourdomain.com/admin/login`
-- **Email**: `admin@keystone.com`
-- **Password**: `Admin@123456`
-
-> ⚠️ Change the admin password after first login via Admin Settings page!
+Iske baad jab bhi aap GitHub repository me `git push origin main` karenge:
+- GitHub Actions automatically VPS me connect hoga.
+- Spring Boot Java Backend compile aur start kar dega (Port 5000).
+- Frontend Showcase Website start kar dega (Port 3000).
+- Admin Panel start kar dega (Port 3001).
+- PM2 reload karke live site update kar dega! 🎉
