@@ -78,7 +78,7 @@ export default function AdminSidebar() {
       {/* Footer Actions */}
       <div className="space-y-2 pt-4 border-t border-slate-100">
         <a
-          href="http://localhost:3000"
+          href={process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:text-blue-900 hover:bg-slate-50 transition-colors"

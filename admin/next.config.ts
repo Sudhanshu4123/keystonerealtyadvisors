@@ -8,14 +8,6 @@ const nextConfig: NextConfig = {
     ],
     unoptimized: true,
   },
-  async rewrites() {
-    return [
-      {
-        source: '/admin/:path*',
-        destination: '/:path*',
-      },
-    ];
-  },
 };
 
 export default nextConfig;

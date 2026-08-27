@@ -58,7 +58,7 @@ export default function AdminHeader({ admin = { name: 'Admin', email: 'admin@key
         </div>
 
         <a
-          href="http://localhost:3000"
+          href={process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-xl transition-colors"

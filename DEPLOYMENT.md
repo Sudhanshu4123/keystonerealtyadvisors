@@ -51,12 +51,13 @@ git clone https://github.com/Sudhanshu4123/keystonerealtyadvisors.git keystone
 cd keystone
 bash setup-vps.sh
 
-# Nginx Connect Karein:
-bash setup-nginx.sh yourdomain.com
+# Nginx Connect Karein (Separate Admin Domain Setup):
+# Format: bash setup-nginx.sh maindomain.com admin.maindomain.com
+bash setup-nginx.sh yourdomain.com admin.yourdomain.com
 
-# Free SSL (HTTPS) Enable Karein:
+# Free SSL (HTTPS) Enable Karein (Donon Domains Ke Liye):
 apt install -y certbot python3-certbot-nginx
-certbot --nginx -d yourdomain.com -d www.yourdomain.com
+certbot --nginx -d yourdomain.com -d www.yourdomain.com -d admin.yourdomain.com
 ```
 
 ---
@@ -66,6 +67,6 @@ certbot --nginx -d yourdomain.com -d www.yourdomain.com
 Iske baad jab bhi aap GitHub repository me `git push origin main` karenge:
 - GitHub Actions automatically VPS me connect hoga.
 - Spring Boot Java Backend compile aur start kar dega (Port 5000).
-- Frontend Showcase Website start kar dega (Port 3000).
-- Admin Panel start kar dega (Port 3001).
+- Showcase Frontend Website start kar dega (`http://yourdomain.com` - Port 3000).
+- Admin Panel start kar dega (`http://admin.yourdomain.com` - Port 3001).
 - PM2 reload karke live site update kar dega! 🎉
