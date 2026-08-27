@@ -1,10 +1,11 @@
 #!/bin/bash
 # ============================================================
 # Nginx Reverse Proxy Setup for Keystone Monorepo
+# Support both main domain (/admin) and separate subdomain (admin.yourdomain.com)
 # Usage:
 #   bash setup-nginx.sh yourdomain.com admin.yourdomain.com
 #   OR
-#   bash setup-nginx.sh yourdomain.com (defaults admin domain to admin.yourdomain.com)
+#   bash setup-nginx.sh yourdomain.com
 # ============================================================
 
 DOMAIN=$1
@@ -25,7 +26,7 @@ echo "  Admin Panel Domain   : $ADMIN_DOMAIN"
 
 cat > /etc/nginx/sites-available/keystone << EOF
 # ------------------------------------------------------------
-# 1. Main Showcase Frontend & API Proxy
+# 1. Main Showcase Frontend, Admin & API Proxy
 # ------------------------------------------------------------
 server {
     listen 80;
@@ -63,9 +64,17 @@ server {
         add_header Cache-Control "public, max-age=2592000";
     }
 
-    # Redirect /admin path on main domain to Admin Domain
+    # Next.js Admin Panel Proxy (Port 3001 with /admin basePath)
     location /admin {
-        return 301 \$scheme://$ADMIN_DOMAIN\$request_uri;
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_cache_bypass \$http_upgrade;
     }
 
     # Next.js Showcase Frontend Proxy (Port 3000)
@@ -83,7 +92,7 @@ server {
 }
 
 # ------------------------------------------------------------
-# 2. Separate Next.js Admin Panel Domain & Proxy
+# 2. Separate Next.js Admin Panel Subdomain Proxy
 # ------------------------------------------------------------
 server {
     listen 80;
@@ -123,7 +132,7 @@ server {
 
     # Next.js Admin Panel Proxy (Port 3001)
     location / {
-        proxy_pass http://localhost:3001;
+        proxy_pass http://localhost:3001/admin/;
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -144,7 +153,8 @@ systemctl reload nginx
 
 echo "✅ Nginx reverse proxy configured successfully!"
 echo "   Main Website: http://$DOMAIN"
-echo "   Admin Panel:  http://$ADMIN_DOMAIN"
+echo "   Admin Panel (Subpath):   http://$DOMAIN/admin"
+echo "   Admin Panel (Subdomain): http://$ADMIN_DOMAIN"
 echo ""
 echo "To enable SSL (HTTPS) for both domains, run:"
 echo "  apt install -y certbot python3-certbot-nginx"
