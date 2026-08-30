@@ -1,4 +1,14 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000/api';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000/api';
+
+export async function seedDatabase() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/seed`, { method: 'POST' });
+    return await res.json();
+  } catch (err: any) {
+    console.error('Seed database error:', err);
+    return { success: false, error: 'Backend server is offline or unreachable.' };
+  }
+}
 
 export function getAdminToken(): string | null {
   if (typeof window === 'undefined') return null;

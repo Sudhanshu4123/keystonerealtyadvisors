@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Lock, Mail, ShieldCheck, Loader2, KeyRound } from 'lucide-react';
-import { adminLogin } from '@/lib/api';
+import { adminLogin, seedDatabase } from '@/lib/api';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -35,8 +35,7 @@ export default function AdminLoginPage() {
 
   const handleTriggerSeed = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/seed', { method: 'POST' });
-      const data = await res.json();
+      const data = await seedDatabase();
       setSeedMsg(data.message || 'Database seeded with default properties and admin account!');
     } catch (err) {
       setSeedMsg('Seed executed.');
