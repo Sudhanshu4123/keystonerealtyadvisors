@@ -29,8 +29,8 @@ jobs:
       - name: 🏗️ Build Backend (Spring Boot)
         run: |
           cd backend
-          chmod +x mvnw
-          ./mvnw clean compile
+          chmod +x mvnw || true
+          ./mvnw clean compile -DskipTests || mvn clean compile -DskipTests
 
       - name: 🏗️ Build Frontend (Next.js)
         run: |
