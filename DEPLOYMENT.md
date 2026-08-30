@@ -6,6 +6,21 @@
 GitHub Push (main branch) → CI Check → SSH into VPS → Build & Restart PM2
 ```
 
+## 🛡️ Multi-Website VPS Safety (Dono Websites Bina Kisi Conflict Ke Run Hongi)
+
+Server par already dusri website live hai, isliye Keystone ko poori tarah isolate rakha gaya hai:
+1. **Isolated Ports / PM2 Names:**
+   * `keystone-backend` (Port 5000)
+   * `keystone-frontend` (Port 3000)
+   * `keystone-admin` (Port 3001)
+   *(Note: Agar purani website port 3000 ya 5000 use karti hai, to Keystone ke ports 3002, 3003, 5002 change kar sakte hain bina kisi dikkat ke).*
+2. **Nginx Virtual Host Isolation:**
+   * Keystone ka Nginx config `/etc/nginx/sites-available/keystone` me alag rahega, dusri website ke Nginx configuration ko touch nahi karega.
+3. **Separate MySQL Database:**
+   * Database: `keystonedb` (dusre project ke database se bilkul alag).
+4. **Separate Project Directory:**
+   * Path: `/var/www/keystone`
+
 ---
 
 ## 🛠️ Step 1: Add GitHub Secrets
