@@ -64,17 +64,9 @@ server {
         add_header Cache-Control "public, max-age=2592000";
     }
 
-    # Next.js Admin Panel Proxy (Port 3001 with /admin basePath)
+    # Next.js Admin Redirect to Subdomain
     location /admin {
-        proxy_pass http://localhost:3001;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-        proxy_cache_bypass \$http_upgrade;
+        return 301 http://$ADMIN_DOMAIN$request_uri;
     }
 
     # Next.js Showcase Frontend Proxy (Port 3000)
@@ -92,7 +84,7 @@ server {
 }
 
 # ------------------------------------------------------------
-# 2. Separate Next.js Admin Panel Subdomain Proxy
+# 2. Dedicated Next.js Admin Panel Subdomain (admin.yourdomain.com)
 # ------------------------------------------------------------
 server {
     listen 80;
@@ -132,7 +124,7 @@ server {
 
     # Next.js Admin Panel Proxy (Port 3001)
     location / {
-        proxy_pass http://localhost:3001/admin/;
+        proxy_pass http://localhost:3001;
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection 'upgrade';
