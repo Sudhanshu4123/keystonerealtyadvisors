@@ -8,17 +8,8 @@
 #   bash setup-nginx.sh yourdomain.com
 # ============================================================
 
-DOMAIN=$1
-ADMIN_DOMAIN=$2
-
-if [ -z "$DOMAIN" ]; then
-  echo "Usage: bash setup-nginx.sh maindomain.com [admin.maindomain.com]"
-  exit 1
-fi
-
-if [ -z "$ADMIN_DOMAIN" ]; then
-  ADMIN_DOMAIN="admin.$DOMAIN"
-fi
+DOMAIN=${1:-keystonerealtyadvisor.com}
+ADMIN_DOMAIN=${2:-admin.keystonerealtyadvisor.com}
 
 echo "Setting up Nginx reverse proxy for:"
 echo "  Main Showcase Domain : $DOMAIN (www.$DOMAIN)"

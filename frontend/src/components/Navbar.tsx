@@ -75,11 +75,11 @@ export default function Navbar() {
             {/* Desktop Actions */}
             <div className="hidden lg:flex items-center gap-4">
               <a
-                href="tel:+919217668175"
+                href="tel:+919911956274"
                 className="flex items-center gap-2 text-slate-700 hover:text-blue-950 text-sm font-bold px-3 py-2 rounded-xl hover:bg-slate-50 transition-colors"
               >
                 <Phone className="w-4 h-4 text-amber-600" />
-                <span>+91 9217668175</span>
+                <span>+91 9911956274</span>
               </a>
               <button
                 onClick={() => setInquiryModalOpen(true)}
@@ -132,11 +132,11 @@ export default function Navbar() {
             })}
             <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
               <a
-                href="tel:+919217668175"
+                href="tel:+919911956274"
                 className="flex items-center justify-center gap-2 text-slate-800 bg-slate-100 py-3 rounded-xl font-bold text-sm"
               >
                 <Phone className="w-4 h-4 text-amber-600" />
-                <span>Call Us: +91 9217668175</span>
+                <span>Call Us: +91 9911956274</span>
               </a>
             </div>
           </div>

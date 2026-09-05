@@ -57,8 +57,8 @@ export default function ProjectDetailsClient({ project }: ProjectDetailsClientPr
     setTimeout(() => setCopiedLink(false), 3000);
   };
 
-  const whatsappUrl = `https://wa.me/919217668175?text=${encodeURIComponent(
-    `Hello Keystone Real Estate Developments, I am inquiring about the project: "${project.name}" (ID: ${project.id}).`
+  const whatsappUrl = `https://wa.me/919911956274?text=${encodeURIComponent(
+    `Hello Shri Shyam Associate, I am inquiring about the project: "${project.name}" (ID: ${project.id}).`
   )}`;
 
   return (
@@ -407,11 +407,11 @@ export default function ProjectDetailsClient({ project }: ProjectDetailsClientPr
 
             <div className="space-y-3">
               <a
-                href="tel:+919217668175"
+                href="tel:+919911956274"
                 className="w-full py-3.5 px-4 rounded-xl bg-white border border-slate-200 hover:border-blue-900 text-slate-900 font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm group"
               >
                 <PhoneCall className="w-4 h-4 text-amber-600 group-hover:scale-110 transition-transform" />
-                <span>Call Developer: +91 9217668175</span>
+                <span>Call Developer: +91 9911956274</span>
               </a>
 
               <a

@@ -68,7 +68,7 @@ function ProjectsContent() {
 
   return (
     <div className="pt-28 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 bg-white">
-      
+
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
@@ -104,12 +104,11 @@ function ProjectsContent() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
-        
+
         {/* FILTER SIDEBAR */}
         <aside
-          className={`lg:block bg-slate-50 border border-slate-200 rounded-3xl p-6 space-y-6 shadow-sm ${
-            filterDrawerOpen ? 'block' : 'hidden lg:block'
-          }`}
+          className={`lg:block bg-slate-50 border border-slate-200 rounded-3xl p-6 space-y-6 shadow-sm ${filterDrawerOpen ? 'block' : 'hidden lg:block'
+            }`}
         >
           <div className="flex items-center justify-between border-b border-slate-200 pb-4">
             <h2 className="text-sm font-extrabold text-slate-900 flex items-center gap-2">
@@ -215,7 +214,7 @@ function ProjectsContent() {
 
         {/* RESULTS GRID */}
         <main className="lg:col-span-3 space-y-8">
-          
+
           <div className="flex items-center justify-between text-xs text-slate-600 font-medium">
             <span>
               Showing <strong className="text-slate-900">{projects.length}</strong> master projects

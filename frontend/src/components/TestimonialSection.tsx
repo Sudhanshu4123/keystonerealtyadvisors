@@ -65,7 +65,7 @@ export default function TestimonialSection({ testimonials: initialTestimonials }
                   </div>
                 )}
                 <div>
-                  <h4 className="text-sm font-extrabold text-slate-900">{t.name}</h4>
+                  <h3 className="text-sm font-extrabold text-slate-900">{t.name}</h3>
                   <span className="text-xs text-amber-600 font-semibold">{t.designation}</span>
                 </div>
               </div>

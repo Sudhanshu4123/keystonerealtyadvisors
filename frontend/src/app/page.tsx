@@ -46,16 +46,16 @@ export default async function HomePage() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-amber-400 text-xs font-black uppercase tracking-widest backdrop-blur-md">
             <Award className="w-4 h-4 text-amber-400" />
-            <span>Master-Planned Real Estate Developer</span>
+            <span>Trusted Home Builder & Property Consultants in Dwarka Sector 7</span>
           </div>
 
           {/* Headline & Subheading */}
           <div className="space-y-4 max-w-4xl mx-auto">
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.1]">
-              Discover Exceptional <span className="gold-gradient-text">Real Estate Projects</span>
+              Premier <span className="gold-gradient-text">Home Builder</span> & Real Estate in Dwarka
             </h1>
             <p className="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
-              Explore thoughtfully designed residential and commercial projects built for modern living and lasting value.
+              Explore luxury builder floors, DDA flats, residential societies, and prime commercial spaces in Sector 7, Dwarka, Delhi.
             </p>
           </div>
 
@@ -238,10 +238,10 @@ export default async function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative rounded-3xl overflow-hidden p-8 sm:p-14 text-center space-y-6 bg-slate-900 text-white border border-slate-800 shadow-2xl">
           <h2 className="text-3xl sm:text-5xl font-black text-white max-w-3xl mx-auto leading-tight">
-            Find Your Next Great Real Estate Investment
+            Find Your Dream Home or Builder Floor in Dwarka, Delhi
           </h2>
           <p className="text-slate-300 text-sm sm:text-base max-w-xl mx-auto font-normal">
-            Connect with our project developers for site plans, pricing schedules, and private walkthroughs.
+            Visit our office at Shop No. 247, 2nd Floor, Vardhaman City Mall, Sector 7, Dwarka or call our experts 24/7.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <Link
@@ -252,11 +252,11 @@ export default async function HomePage() {
               <span>Enquire Now</span>
             </Link>
             <a
-              href="tel:+919217668175"
+              href="tel:+919911956274"
               className="px-8 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 border border-slate-700 transition-colors"
             >
               <PhoneCall className="w-4 h-4 text-amber-400" />
-              <span>Call +91 9217668175</span>
+              <span>Call +91 9911956274</span>
             </a>
           </div>
         </div>

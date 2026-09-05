@@ -53,26 +53,37 @@ ssh-keygen -t ed25519 -C "github-actions-keystone" -f keystone_key
 
 ---
 
-## 🌐 Step 2: VPS First-Time One-Click Setup
+## 🌐 Step 2: Domain & VPS Setup for `keystonerealtyadvisor.com`
 
-VPS me Terminal (SSH) open karke run karein:
+### 1️⃣ Domain DNS Records Setup (GoDaddy / Namecheap / Cloudflare / Hostinger):
+Apne Domain DNS Management me jaakar ye 3 **A Records** add karein:
+
+| Type | Name / Host | Points to (Value) | TTL |
+| :--- | :--- | :--- | :--- |
+| **A** | `@` | `YOUR_VPS_IP` | Automatic / 300s |
+| **A** | `www` | `YOUR_VPS_IP` | Automatic / 300s |
+| **A** | `admin` | `YOUR_VPS_IP` | Automatic / 300s |
+
+*(Note: `YOUR_VPS_IP` ki jagah apne VPS server ka real IP address daalein).*
+
+---
+
+### 2️⃣ VPS me Nginx & SSL Activate Karein:
+VPS me SSH terminal open karein:
 
 ```bash
 ssh root@YOUR_VPS_IP
 
-# Setup server tools (Java 17, Node 20, PM2, Nginx)
-mkdir -p /var/www && cd /var/www
-git clone https://github.com/Sudhanshu4123/keystonerealtyadvisors.git keystone
-cd keystone
-bash setup-vps.sh
+# Project directory me jayein:
+cd /var/www/keystone
+git pull origin main
 
-# Nginx Connect Karein (Separate Admin Domain Setup):
-# Format: bash setup-nginx.sh maindomain.com admin.maindomain.com
-bash setup-nginx.sh yourdomain.com admin.yourdomain.com
+# Nginx reverse proxy configure karein:
+bash setup-nginx.sh keystonerealtyadvisor.com admin.keystonerealtyadvisor.com
 
-# Free SSL (HTTPS) Enable Karein (Donon Domains Ke Liye):
+# Free SSL (HTTPS) Enable Karein (Sabhi Domains ke liye):
 apt install -y certbot python3-certbot-nginx
-certbot --nginx -d yourdomain.com -d www.yourdomain.com -d admin.yourdomain.com
+certbot --nginx -d keystonerealtyadvisor.com -d www.keystonerealtyadvisor.com -d admin.keystonerealtyadvisor.com
 ```
 
 ---
@@ -82,6 +93,6 @@ certbot --nginx -d yourdomain.com -d www.yourdomain.com -d admin.yourdomain.com
 Iske baad jab bhi aap GitHub repository me `git push origin main` karenge:
 - GitHub Actions automatically VPS me connect hoga.
 - Spring Boot Java Backend compile aur start kar dega (Port 5000).
-- Showcase Frontend Website start kar dega (`http://yourdomain.com` - Port 3000).
-- Admin Panel start kar dega (`http://admin.yourdomain.com` - Port 3001).
+- Showcase Frontend Website live hogi: **`https://keystonerealtyadvisor.com`** (Port 3000).
+- Admin Panel live hoga: **`https://admin.keystonerealtyadvisor.com`** (Port 3001) aur **`https://keystonerealtyadvisor.com/admin`**
 - PM2 reload karke live site update kar dega! 🎉

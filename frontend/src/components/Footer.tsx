@@ -21,7 +21,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
-              Keystone Real Estate Developments is a premier master-planned project developer. We design, construct, and deliver signature residential townships, luxury villa enclaves, and Grade-A corporate towers.
+              Shri Shyam Associate is a premier Home Builder and Real Estate Development firm in Dwarka, Delhi. We design, construct, and deliver signature luxury builder floors, modern residential apartments, and prime commercial spaces.
             </p>
 
             <div className="flex items-center gap-4 pt-2">
@@ -31,7 +31,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2 bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg text-xs text-slate-300 font-semibold">
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                <span>Verified Master Projects</span>
+                <span>Verified Home Builder</span>
               </div>
             </div>
           </div>
@@ -52,7 +52,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/about" className="hover:text-amber-400 transition-colors">
-                  About Keystone
+                  About Us
                 </Link>
               </li>
               <li>
@@ -87,12 +87,12 @@ export default function Footer() {
             <ul className="space-y-3 text-xs text-slate-300">
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <span>Vardhaman City Mall, Dwarka, Delhi</span>
+                <span>Shop No. 247, 2nd Floor, Vardhaman City Mall, Vaishali, Sector 7, Dwarka, Delhi - 110077</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-amber-400 shrink-0" />
-                <a href="tel:+919217668175" className="hover:text-white transition-colors font-bold">
-                  +91 9217668175
+                <a href="tel:+919911956274" className="hover:text-white transition-colors font-bold">
+                  +91 9911956274
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -103,7 +103,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Clock className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>Monday - Sunday: 9:00 AM - 8:00 PM (7 Days Open)</span>
+                <span>Monday - Sunday: Open 24 Hours (24/7)</span>
               </li>
             </ul>
           </div>
@@ -112,7 +112,7 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-medium">
-          <p>© {new Date().getFullYear()} Keystone Real Estate Developments. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Shri Shyam Associate. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <Link href="/privacy-policy" className="hover:text-amber-400 transition-colors">
               Privacy Policy

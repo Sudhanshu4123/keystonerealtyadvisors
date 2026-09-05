@@ -61,9 +61,9 @@ export default function ContactPage() {
           />
         </div>
         <span className="text-amber-600 font-bold text-xs uppercase tracking-widest block">Connect With Us</span>
-        <h1 className="text-4xl sm:text-5xl font-black text-slate-900">{settings?.companyName || 'Keystone Developments'}</h1>
+        <h1 className="text-4xl sm:text-5xl font-black text-slate-900">{settings?.companyName || 'Shri Shyam Associate'}</h1>
         <p className="text-slate-600 text-sm leading-relaxed">
-          Whether you are looking to acquire a luxury residential unit, corporate space, or inquire about project walkthroughs, our senior development team is at your disposal.
+          Whether you are looking to acquire a luxury builder floor, residential apartment, corporate space, or inquire about project walkthroughs in Dwarka, our advisory team is at your service 24/7.
         </p>
       </div>
 
@@ -84,7 +84,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <span className="text-xs text-slate-400 font-medium block">Office Address</span>
-                  <span className="font-bold text-white">{settings?.address || 'Vardhaman City Mall, Dwarka, Delhi'}</span>
+                  <span className="font-bold text-white">{settings?.address || 'Shop No. 247, 2nd Floor, Vardhaman City Mall, Vaishali, Sector 7, Dwarka, Delhi - 110077'}</span>
                 </div>
               </div>
 
@@ -94,8 +94,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <span className="text-xs text-slate-400 font-medium block">Business Phone</span>
-                  <a href={`tel:${settings?.phone || '+919217668175'}`} className="font-bold text-white hover:text-amber-400 transition-colors">
-                    {settings?.phone || '+91 9217668175'}
+                  <a href={`tel:${settings?.phone || '+919911956274'}`} className="font-bold text-white hover:text-amber-400 transition-colors">
+                    {settings?.phone || '+91 9911956274'}
                   </a>
                 </div>
               </div>
@@ -106,8 +106,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <span className="text-xs text-slate-400 font-medium block">WhatsApp Line</span>
-                  <a href={`https://wa.me/${(settings?.whatsapp || '919217668175').replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="font-bold text-white hover:text-emerald-400 transition-colors">
-                    {settings?.whatsapp || '+91 9217668175'}
+                  <a href={`https://wa.me/${(settings?.whatsapp || '919911956274').replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="font-bold text-white hover:text-emerald-400 transition-colors">
+                    {settings?.whatsapp || '+91 9911956274'}
                   </a>
                 </div>
               </div>
@@ -130,7 +130,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <span className="text-xs text-slate-400 font-medium block">Working Hours</span>
-                  <span className="font-bold text-white">{settings?.workingHours || 'Monday - Sunday: 9:00 AM - 8:00 PM (7 Days Open)'}</span>
+                  <span className="font-bold text-white">{settings?.workingHours || 'Monday - Sunday: Open 24 Hours (24/7)'}</span>
                 </div>
               </div>
             </div>
@@ -138,9 +138,9 @@ export default function ContactPage() {
 
           {/* Embedded Google Map */}
           <GoogleMapPlaceholder
-            location="Vardhaman City Mall"
-            address={settings?.address || 'Dwarka'}
-            city="Delhi"
+            location="Shop No. 247, 2nd Floor, Vardhaman City Mall"
+            address={settings?.address || 'Shop No. 247, 2nd Floor, Vardhaman City Mall, Vaishali, Sector 7, Dwarka, Delhi - 110077'}
+            city="Dwarka, Delhi"
             googleMapsUrl={settings?.googleMapsUrl}
           />
         </div>

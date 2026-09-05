@@ -48,14 +48,15 @@ export async function fetchProjectBySlug(slug: string): Promise<Project | null> 
 export async function fetchSiteSettings(): Promise<SiteSettings> {
   const fallbackSettings: SiteSettings = {
     id: 'site_settings',
-    companyName: 'Keystone Real Estate Developments',
-    phone: '+91 9217668175',
-    whatsapp: '+91 9217668175',
+    companyName: 'Shri Shyam Associate',
+    phone: '+91 9911956274',
+    whatsapp: '+91 9911956274',
     email: 'shrishyamproperties001@gmail.com',
-    address: 'Vardhaman City Mall, Dwarka, Delhi',
-    workingHours: 'Monday - Sunday: 9:00 AM - 8:00 PM (7 Days Open)',
-    siteTitle: 'Keystone | Premium Real Estate Projects Showcase',
-    siteDescription: 'Explore luxury residential and commercial developments built for modern living and lasting value.',
+    address: 'Shop No. 247, 2nd Floor, Vardhaman City Mall, Vaishali, Sector 7, Dwarka, Delhi - 110077',
+    workingHours: 'Monday - Sunday: Open 24 Hours (24/7)',
+    siteTitle: 'Shri Shyam Associate | Home Builder & Real Estate in Sector 7 Dwarka, Delhi',
+    siteDescription:
+      'Shri Shyam Associate is a premier Home Builder and Real Estate Consultant in Sector 7, Dwarka, Delhi. Located at Shop No 247, 2nd Floor, Vardhaman City Mall. Call +91 9911956274.',
     projectsDelivered: '48+',
     yearsExperience: '15+',
     happyCustomers: '12,500+',

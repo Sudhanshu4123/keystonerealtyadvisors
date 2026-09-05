@@ -46,7 +46,7 @@ export default async function ProjectDetailsPage({ params }: Props) {
     '@type': 'RealEstateListing',
     name: project.name,
     description: project.description,
-    url: `https://keystonedev.com/projects/${project.slug}`,
+    url: `https://keystonerealtyadvisor.com/projects/${project.slug}`,
     image: project.images?.map((img) => img.imageUrl) || [],
     address: {
       '@type': 'PostalAddress',

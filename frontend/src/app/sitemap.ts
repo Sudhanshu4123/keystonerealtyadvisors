@@ -4,7 +4,7 @@ import { fetchProjects } from '@/lib/api';
 export const revalidate = 3600; // Revalidate sitemap every 1 hour
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://keystonedev.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://keystonerealtyadvisor.com';
 
   let projectUrls: MetadataRoute.Sitemap = [];
 

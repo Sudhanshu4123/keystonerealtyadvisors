@@ -136,6 +136,8 @@ export interface SiteSettings {
 }
 
 export const PROJECT_TYPES = [
+  'Home Builder',
+  'Luxury Builder Floors',
   'Residential',
   'Commercial',
   'Mixed Use',
